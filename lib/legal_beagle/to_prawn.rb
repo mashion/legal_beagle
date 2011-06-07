@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'prawn'
 
 module MaRuKu::Out::Prawn
