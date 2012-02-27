@@ -7,7 +7,7 @@ module MaRuKu::Out::Prawn
     @pdf = pdf
     array_to_prawn(@children)
   end
-  
+
   def array_to_prawn(children)
     children.each do |c|
       send("to_prawn_#{c.node_type}", c)
@@ -20,17 +20,17 @@ module MaRuKu::Out::Prawn
     end
     @pdf.text ' '
   end
-  
+
   def to_prawn_li_span(li)
     if li.children.empty?
       text = li.to_html
     else
       text = to_pdf_string(li.children)
     end
-    
+
     @pdf.text "  •  " + text, :indent_paragraphs => 20
   end
-  
+
   def to_prawn_paragraph(para)
     text = to_pdf_string(para.children)
     @pdf.text text, :inline_format => true
@@ -70,25 +70,25 @@ module MaRuKu::Out::Prawn
       "rdquo" => "”"
     }
   end
-  
+
   def to_prawn_string_paragraph(para)
     para.to_html
   end
-  
+
   def to_prawn_string_entity(entity)
     name = entity.entity_name
     typographic = entity_table[name]
     raise "I don't know how to make a typographic #{name}" unless typographic
     typographic
   end
-  
+
   # TODO find a less ghetto way to do leading-trailing margins
   def to_prawn_header(header)
     size = { 1 => 16, 2 => 12 }[header.level]
     @pdf.text header.children.join("\n"), :size => size, :style => :bold
     @pdf.text ' '
   end
-  
+
   def to_prawn_div(div)
     if div.attributes[:class] == "signature"
       signature_name = div.children.map.join(" ")
@@ -105,7 +105,7 @@ module MaRuKu::Out::Prawn
         text signature_name + " (Print)"
       end
     else
-      puts "Didn't write div to pdf: #{div.inspect}"      
+      puts "Didn't write div to pdf: #{div.inspect}"
     end
   end
 end
