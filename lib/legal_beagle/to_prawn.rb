@@ -55,6 +55,13 @@ module MaRuKu::Out::Prawn
     "<strong>#{to_pdf_string(strong.children)}</strong>"
   end
 
+  def to_prawn_string_im_image(image)
+    options = {}
+    options[:width] = image.children.first.to_i if image.children.first
+    @pdf.image image.url, options
+    ""
+  end
+
   def entity_table
     @table ||= {
       "lsquo" => "‘",
