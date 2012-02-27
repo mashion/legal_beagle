@@ -14,21 +14,34 @@ module MaRuKu::Out::Prawn
     end
   end
 
-  def to_prawn_ul(ul)
-    ul.children.each do |c|
-      to_prawn_li_span(c)
+  def to_prawn_ol(ol)
+    ol.children.each_with_index do |c, i|
+      to_prawn_ol_span(c, i)
     end
     @pdf.text ' '
   end
 
-  def to_prawn_li_span(li)
-    if li.children.empty?
-      text = li.to_html
-    else
-      text = to_pdf_string(li.children)
+  def to_prawn_ul(ul)
+    ul.children.each do |c|
+      to_prawn_ul_span(c)
     end
+    @pdf.text ' '
+  end
 
-    @pdf.text "  •  " + text, :indent_paragraphs => 20
+  def li_text(li)
+    if li.children.empty?
+      li.to_html
+    else
+      to_pdf_string(li.children)
+    end
+  end
+
+  def to_prawn_ol_span(li, i)
+    @pdf.text "  #{i+1}.  " + li_text(li), :indent_paragraphs => 20
+  end
+
+  def to_prawn_ul_span(li)
+    @pdf.text "  •  " + li_text(li), :indent_paragraphs => 20
   end
 
   def to_prawn_paragraph(para)
