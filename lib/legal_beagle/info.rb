@@ -4,7 +4,7 @@ module LegalBeagle
   end
 
   def self.version
-    "0.0.2.a"
+    "0.0.3"
   end
 
   def self.summary
